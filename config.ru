@@ -6,7 +6,7 @@ require_relative 'lib/web_deck'
 
 App = Syro.new(Web) do
   get do
-    render("index", title: "Phoenix user form", content: "")
+    render("index", title: "Phoenix", content: "")
   end
 end
 

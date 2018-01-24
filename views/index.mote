@@ -1,0 +1,86 @@
+<h5>New User</h5>
+<div id="message" class="hide"></div>
+<form id="new-user" action="localhost:8000" method="post">
+  <div class="form-group">
+    <label for="name">Name </label>
+    <input type="text" class="form-control" id="name"  placeholder="Enter your name" data-validation="length alphanumeric"
+		 data-validation-length="3-12" >
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email </label>
+    <input type="text" class="form-control" id="email"  placeholder="Enter email" data-validation="email">
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" id="password" data-validation="strength"
+		 data-validation-strength="2">
+  </div>
+
+  <div class="form-group">
+    <label for="phone">Phone number </label>
+    <input type="text" class="form-control" id="phone" placeholder="+57-355-5546-632" data-validation="length alphanumeric"
+		 data-validation-length="10-15">
+  </div>
+
+  <div class="form-group">
+    <label for="country"> Country </label>
+    <input type="text" class="form-control" id="country" placeholder="Belgium">
+  </div>
+
+  <div class="form-group">
+    <label for="city"> City </label>
+    <input type="text" class="form-control" id="city" placeholder="Bazilia">
+  </div>
+
+  <div class="form-group">
+    <label for="address"> Address </label>
+    <input type="text" class="form-control" id="address" placeholder="Av Evergreen 123">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+<script>
+
+  $(document).ready(function(){
+    $.validate({
+      modules : 'location, date, security',
+      onModulesLoaded : function() {
+        $('#country').suggestCountry();
+      }
+    });
+
+    $("#new-user").submit(function(e) {
+
+      var form_data = "name="+encodeURIComponent($("#name").val());
+      form_data += "&email="+encodeURIComponent($("#email").val());
+      form_data += "&password="+encodeURIComponent(sha256($("#password").val()));
+      form_data += "&phoneNumber="+encodeURIComponent($("#phone").val());
+      form_data += "&country="+encodeURIComponent($("#country").val());
+      form_data += "&city="+encodeURIComponent($("#city").val());
+      form_data += "&address="+encodeURIComponent($("#address").val());
+
+      $.ajax({
+          url: 'http://localhost:8000/users',
+          data: form_data,
+          processData: false,
+          type: 'POST',
+          contentType: 'application/x-www-form-urlencoded',
+          success: function ( d ) {
+              alert( "Success!!" );
+              $("input").val("");
+              $("#message").replaceWith('<div class="alert alert-success" role="alert" id="message">  Success!</div>');
+          },
+          error: function (d) {
+            $("#message").replaceWith('<div class="alert alert-danger" role="alert" id="message">'+d.responseText+'</div>');
+          }
+      });
+
+      e.preventDefault();
+    });
+  });
+
+</script>

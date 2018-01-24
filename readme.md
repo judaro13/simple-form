@@ -1,7 +1,7 @@
 ### Information
 
 Simple ruby server for display a new user form.
-Fields validated and using sha256 for hashing password. This app expect that the users_enpoint application run in localhost:8000.
+Fields validated and using sha256 for hashing password. This app expect that the users_enpoint application run in localhost:8000. Used Boostrap and JQuery.
 
 ### Install
 
